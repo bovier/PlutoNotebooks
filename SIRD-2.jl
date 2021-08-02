@@ -59,7 +59,7 @@ parameter = Dict(
 	"rate of immuity loss" => 0.00,
 	"rate of death of infected" => 0.001,
 	"total population" => 6*10^2,
-	"initial number of infected" => 100.0
+	"initial number of infected" => 10.0
 );
 
 # ╔═╡ d59335ac-913b-11eb-228f-273be8d7a86a
@@ -71,7 +71,7 @@ md"""
 # ╔═╡ 56b9df4c-913b-11eb-180a-eb784c2b5181
 begin
 	parameter_subpopulation = Dict(
-		"rate of infection" => 0.0,
+		"rate of infection" => 0.14,
 		"rate of recovery" => 0.035,
 		"rate of immuity loss" => 0.0,
 		"rate of death of infected" => 0.2,
@@ -123,7 +123,7 @@ begin
 		F[1,:] = x₀
 		for (n,t) ∈ enumerate(T[2:end])
 			change_par!(par,t,F,n)
-			F[n+1,:] = F[n,:] + f(t,F,n,par) .* Δt
+			F[n+1,:] = F[n,:] + f(t,F,n,par) . *1
 		end
 		return F
 	end
@@ -142,13 +142,13 @@ md"""
 begin
 	function SIR_step(t,x,β,δ,γ,ρ,N)
 		S, I, R, D = x[1], x[2], x[3], x[4]
-		nI = β*I*S/N
+		nI = β*I*S/N*Δt
 		return [
-			-nI + rand(Poisson(δ*R)),
+			-nI + δ*R*Δt,
 			nI - γ*I,
-			γ*(1-ρ)*I - δ*R,
-			γ*ρ*I,
-			nI / Δt
+			γ*(1-ρ)*I*Δt - δ*R*Δt,
+			γ*ρ*I*Δt,
+			nI
 			]
 	end
 	SIR_step(t,x,par::Dict) = SIR_step(t,x,
