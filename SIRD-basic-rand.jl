@@ -53,8 +53,8 @@ The following is a simulation of the model described above. First choose the mod
 
 # ╔═╡ 43970fa0-8e1b-11eb-3052-1701966a4478
 begin
-	T = 3000 	#period of 300 daysplot
-	Δt = 1/40 	#time interval of 6 hours (1/4 of a day)
+	T = 1000 	#period of 300 daysplot
+	Δt = 1/400 	#time interval of 6 hours (1/4 of a day)
 end;
 
 # ╔═╡ 742d1fd0-907d-11eb-27d1-59ca2af59f97
@@ -63,8 +63,8 @@ parameter = Dict(
 	"rate of recovery" => 0.07,
 	"rate of immunity loss" => 0.001,
 	"rate of death of infected" => 0.001,
-	"total population" => 1*10^8,
-	"initial number of infected" => 10
+	"total population" => 1*10^4,
+	"initial number of infected" => 1
 );
 
 # ╔═╡ f8e23e02-9142-11eb-1700-6974da1a09c0
@@ -119,8 +119,8 @@ begin
 		S, I, R, D = x[1], x[2], x[3], x[4]
 		nI = rand(Poisson(β*I*S/N*Δt))
 		nIL = rand(Poisson(δ*R*Δt))
-		nR = rand(Poisson(γ*I*Δt))
-		nD = rand(Poisson(ρ*I*Δt))
+		nR = rand(Poisson(γ*(1-ρ)*I*Δt))
+		nD = rand(Poisson(ρ*γ*I*Δt))
 		return [
 			-nI + nIL,
 			nI - nR - nD,
