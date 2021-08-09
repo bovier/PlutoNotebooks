@@ -60,11 +60,11 @@ end;
 # ╔═╡ 742d1fd0-907d-11eb-27d1-59ca2af59f97
 parameter = Dict(
 	"rate of infection" => 0.14,
-	"rate of recovery" => 0.03,
+	"rate of recovery" => 0.07,
 	"rate of immunity loss" => 0.003,
 	"rate of death of infected" => 0.001,
-	"total population" => 1*10^5,
-	"initial number of infected" => 10
+	"total population" => 1*10^8,
+	"initial number of infected" => 100
 );
 
 # ╔═╡ f8e23e02-9142-11eb-1700-6974da1a09c0
